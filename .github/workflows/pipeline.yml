@@ -6,6 +6,19 @@ on:
       - master
 
 jobs:
+  hellow_world_job:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Say hello
+        run: |
+          echo "Hello World!"
+      - name: Say date
+        run: |
+          date
+      - name: Say directory
+        run: |
+          ls -l
+
   simple_deployment_pipeline:
     runs-on: ubuntu-18.04
     steps:
@@ -25,3 +38,9 @@ jobs:
       - name: test
         run: |
           npm run test
+      - name: e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:5000
