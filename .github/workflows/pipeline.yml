@@ -49,8 +49,9 @@ jobs:
           wait-on: http://localhost:5000
       - name: deploy to heroku
         uses: akhileshns/heroku-deploy@v3.12.12
+        if: ${{ github.event_name == 'push' }}
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: quiet-bayou-16852
           heroku_email: minhvo.dev@gmail.com
           healthcheck: https://quiet-bayou-16852.herokuapp.com/health
