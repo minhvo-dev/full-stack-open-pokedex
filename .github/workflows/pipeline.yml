@@ -50,3 +50,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: quiet-bayou-16852
           heroku_email: minhvo.dev@gmail.com
+          healthcheck: https://quiet-bayou-16852.herokuapp.com/health
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
