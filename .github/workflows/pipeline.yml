@@ -63,6 +63,16 @@ jobs:
       #     healthcheck: https://quiet-bayou-16852.herokuapp.com/health
       #     checkstring: "ok"
       #     rollbackonhealthcheckfailed: true
+      - name: discord notification - success
+        uses: Ilshidur/action-discord@0.3.2
+        if: ${{ github.event_name == 'push' && success() }}
+        env: 
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          EVENT_PAYLOAD_OBJECT: ${{ toJson(EVENT_PAYLOAD) }}
+        with:
+          args: 'Deployment succeeded - User {{ EVENT_PAYLOAD.deployment.id }}'
+        run: |
+          echo "$EVENT_PAYLOAD_OBJECT"
       - name: discord notification - failure
         uses: Ilshidur/action-discord@0.3.2
         if: ${{ github.event_name == 'push' && failure() }}
@@ -70,10 +80,3 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
           args: 'Deployment failed'
-      - name: discord notification - success
-        uses: Ilshidur/action-discord@0.3.2
-        if: ${{ github.event_name == 'push' && success() }}
-        env: 
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        with:
-          args: 'Deployment succeeded - User {{ EVENT_PAYLOAD.deployment.id }}'
