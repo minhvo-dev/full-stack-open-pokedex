@@ -76,4 +76,4 @@ jobs:
         env: 
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: 'Deployment succeeded - User {{ EVENT_PAYLOAD }}'
+          args: 'Deployment succeeded - User {{ EVENT_PAYLOAD.deployment.id }}'
