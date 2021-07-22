@@ -65,10 +65,8 @@ jobs:
       #     rollbackonhealthcheckfailed: true
       - name: dump out payload
         if: ${{ github.event_name == 'push' && success() }}
-        env:
-          EVENT_PAYLOAD_OBJECT: ${{ toJson(EVENT_PAYLOAD) }}
         run: |
-          echo "$EVENT_PAYLOAD_OBJECT"
+          echo "$EVENT_PAYLOAD"
       - name: discord notification - success
         uses: Ilshidur/action-discord@0.3.2
         if: ${{ github.event_name == 'push' && success() }}
