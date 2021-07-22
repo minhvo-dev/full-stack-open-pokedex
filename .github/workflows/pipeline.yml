@@ -65,7 +65,7 @@ jobs:
       #     rollbackonhealthcheckfailed: true
       - name: dump out payload
         if: ${{ github.event_name == 'push' && success() }}
-        evn:
+        env:
           EVENT_PAYLOAD_OBJECT: ${{ toJson(EVENT_PAYLOAD) }}
         run: |
           echo "$EVENT_PAYLOAD_OBJECT"
