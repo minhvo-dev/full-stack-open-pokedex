@@ -68,7 +68,7 @@ jobs:
         if: ${{ github.event_name == 'push' && success() }}
         env: 
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DISCORD_EMBEDS: ${{ toJSON([{"title": "Hello!","description": "Hi! :grinning:"}])}}
+          DISCORD_EMBEDS: '${{ toJSON([{"title": "Hello!","description": "Hi! :grinning:"}])}}'
           
         # with:
         #   args: {'Deployment succeeded ```[{{ EVENT_PAYLOAD.sender.login }}]({{ EVENT_PAYLOAD.sender.html_url }})``` created a commit: <[{{ EVENT_PAYLOAD.head_commit.message }}]({{ EVENT_PAYLOAD.head_commit.url }})> at {{ EVENT_PAYLOAD.head_commit.timestamp}}'}
