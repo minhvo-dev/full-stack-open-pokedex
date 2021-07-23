@@ -41,33 +41,40 @@ jobs:
       - name: test
         run: |
           npm run test
-      # - name: e2e tests
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     command: npm run test:e2e
-      #     start: npm run start-prod
-      #     wait-on: http://localhost:5000
-      # - name: bump version and push tag
-      #   uses: anothrNick/github-tag-action@1.35.0
-      #   if: ${{ github.event_name == 'push' }}
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     DEFAULT_BUMP: patch
-      # - name: deploy to heroku
-      #   uses: akhileshns/heroku-deploy@v3.12.12
-      #   if: ${{ github.event_name == 'push' }}
-      #   with:
-      #     heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-      #     heroku_app_name: quiet-bayou-16852
-      #     heroku_email: minhvo.dev@gmail.com
-      #     healthcheck: https://quiet-bayou-16852.herokuapp.com/health
-      #     checkstring: "ok"
-      #     rollbackonhealthcheckfailed: true
+      - name: e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:5000
+      - name: bump version and push tag
+        uses: anothrNick/github-tag-action@1.35.0
+        if: ${{ github.event_name == 'push' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+      - name: deploy to heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        if: ${{ github.event_name == 'push' }}
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: quiet-bayou-16852
+          heroku_email: minhvo.dev@gmail.com
+          healthcheck: https://quiet-bayou-16852.herokuapp.com/health
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
       - name: discord notification - success
         uses: Ilshidur/action-discord@0.3.2
         if: ${{ github.event_name == 'push' && success() }}
         env: 
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: discord notification - failure
+        uses: Ilshidur/action-discord@0.3.2
+        if: ${{ github.event_name == 'push' && failure() }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: 'Deployment succeeded - [{{ EVENT_PAYLOAD.sender.login }}]({{ EVENT_PAYLOAD.sender.html_url}})'
       - name: discord notification - failure
         uses: Ilshidur/action-discord@0.3.2
         if: ${{ github.event_name == 'push' && failure() }}
