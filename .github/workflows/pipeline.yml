@@ -76,4 +76,4 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: 'Deployment failed'
+          args: 'Deployment failed - [{{ EVENT_PAYLOAD.sender.login }}]({{ EVENT_PAYLOAD.sender.html_url}}) created a commit: [{{ EVENT_PAYLOAD.commits[0].message }}]({{ EVENT_PAYLOAD.commits[0].url }}) at {{ EVENT_PAYLOAD.commits[0].timestamp}}'
