@@ -68,9 +68,8 @@ jobs:
         if: ${{ github.event_name == 'push' && success() }}
         env: 
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          COMMITS: ${{ toJSON(github.event.commits) }}
         with:
-          args: 'Deployment succeeded - [{{ EVENT_PAYLOAD.sender.login }}]({{ EVENT_PAYLOAD.sender.html_url}}) create a {{ COMMITS }}'
+          args: 'Deployment succeeded - {{ EVENT_PAYLOAD.sender.avatar_url }} [{{ EVENT_PAYLOAD.sender.login }}]({{ EVENT_PAYLOAD.sender.html_url}}) create a {{ EVENT_PAYLOAD.commits[0].message }}'
       - name: discord notification - failure
         uses: Ilshidur/action-discord@0.3.2
         if: ${{ github.event_name == 'push' && failure() }}
