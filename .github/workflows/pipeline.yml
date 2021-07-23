@@ -69,8 +69,8 @@ jobs:
         env: 
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_EMBEDS: ${{ toJSON([{
-              "author": {
-                "name": ${{ github.event.sender.login }}
+              author: {
+                name: ${{ github.event.sender.login }}
               }
             }]) }}
           }
