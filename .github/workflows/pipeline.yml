@@ -29,46 +29,46 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '14.x'
-      # - name: npm install
-      #   run: |
-      #     npm install
-      # - name: lint
-      #   run: |
-      #     npm run eslint
-      # - name: build
-      #   run: |
-      #     npm run build
-      # - name: test
-      #   run: |
-      #     npm run test
-      # - name: e2e tests
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     command: npm run test:e2e
-      #     start: npm run start-prod
-      #     wait-on: http://localhost:5000
-      # - name: bump version and push tag
-      #   uses: anothrNick/github-tag-action@1.35.0
-      #   if: ${{ github.event_name == 'push' }}
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     DEFAULT_BUMP: patch
-      # - name: deploy to heroku
-      #   uses: akhileshns/heroku-deploy@v3.12.12
-      #   if: ${{ github.event_name == 'push' }}
-      #   with:
-      #     heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-      #     heroku_app_name: quiet-bayou-16852
-      #     heroku_email: minhvo.dev@gmail.com
-      #     healthcheck: https://quiet-bayou-16852.herokuapp.com/health
-      #     checkstring: "ok"
-      #     rollbackonhealthcheckfailed: true
+      - name: npm install
+        run: |
+          npm install
+      - name: lint
+        run: |
+          npm run eslint
+      - name: build
+        run: |
+          npm run build
+      - name: test
+        run: |
+          npm run test
+      - name: e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:5000
+      - name: bump version and push tag
+        uses: anothrNick/github-tag-action@1.35.0
+        if: ${{ github.event_name == 'push' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+      - name: deploy to heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        if: ${{ github.event_name == 'push' }}
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: quiet-bayou-16852
+          heroku_email: minhvo.dev@gmail.com
+          healthcheck: https://quiet-bayou-16852.herokuapp.com/health
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
       - name: discord notification - success
         uses: Ilshidur/action-discord@0.3.2
         if: ${{ github.event_name == 'push' && success() }}
         env: 
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DISCORD_EMBEDS: "[{\"author\":{\"name\":\"${{github.event.head_commit.author.name}}\",\"url\":\"${{github.event.sender.html_url}}\",\"icon_url\":\"${{github.event.sender.avatar_url}}\"},\"description\":\"[${{github.event.head_commit.id}}](${{github.event.head_commit.url}}) ${{github.event.head_commit.message}}\",\"allowed_mentions\":{\"parse\":[\"everyone\"]},\"footer\":{\"text\":\"Woah! *So cool!* :100: :100: :100:\",\"icon_url\":\"https://icons8.com/icon/sz8cPVwzLrMP/check-mark\"}}]"
+          DISCORD_EMBEDS: "[{\"author\":{\"name\":\"${{github.event.head_commit.author.name}}\",\"url\":\"${{github.event.sender.html_url}}\",\"icon_url\":\"${{github.event.sender.avatar_url}}\"},\"description\":\"[${{github.event.head_commit.id}}](${{github.event.head_commit.url}}) ${{github.event.head_commit.message}}\",\"allowed_mentions\":{\"parse\":[\"everyone\"]},\"footer\":{\"text\":\"Woah! *So cool!* :100: :100: :100:\",\"icon_url\":\"https://img.icons8.com/emoji/96/000000/check-mark-emoji.png\"}}]"
       - name: discord notification - failure
         uses: Ilshidur/action-discord@0.3.2
         if: ${{ github.event_name == 'push' && failure() }}
